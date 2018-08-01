@@ -1,0 +1,170 @@
+---
+title: "乘客NPS与运营指标的相关性(三因子模型的探索性因子分析）"
+author: "OI Team-Jack Sun"
+date: "2017/9/19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#上海
+
+```{r,echo=FALSE,message=F}
+require(gplots)
+require(nFactors)
+require(RColorBrewer)
+setwd("~/Documents/NPS")
+load("乘客NPS与运营因素分析基于EFA方法.Rdata")
+sh_rider_nps_factor<-subset(nps_all,城市.y=="上海",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(sh_rider_nps_factor)
+fac_sh<-factanal(sh_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_sh
+par(family='STHeiti')
+heatmap.2(fac_sh$loadings,col = brewer.pal(9,"Greens"),trace = "none",key = FALSE,dend = "none",Colv = FALSE,cexCol = 0.7,cexRow = 0.7, family = "STHeiti")
+
+```
+
+主成分回归
+```{r,echo=FALSE,message=F}
+sh_rider_nps<-cbind(subset(nps_all,城市.y=="上海",select = "乘客NPS"),data.frame(fac_sh$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=sh_rider_nps))
+```
+
+#杭州
+
+```{r,echo=FALSE,message=F}
+hz_rider_nps_factor<-subset(nps_all,城市.y=="杭州",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(hz_rider_nps_factor)
+fac_hz<-factanal(hz_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_hz
+par(family='STHeiti')
+heatmap.2(fac_hz$loadings,col = brewer.pal(9,"Greens"),trace = "none",key = FALSE,dend = "none",Colv = FALSE,cexCol = 0.7,cexRow = 0.7, family = "STHeiti")
+```
+
+主成分回归
+```{r,echo=FALSE,message=F}
+hz_rider_nps<-cbind(subset(nps_all,城市.y=="杭州",select = "乘客NPS"),data.frame(fac_hz$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=hz_rider_nps))
+```
+
+#南京
+```{r,echo=FALSE,message=F}
+nj_rider_nps_factor<-subset(nps_all,城市.y=="南京",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(nj_rider_nps_factor)
+fac_nj<-factanal(nj_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_nj
+```
+
+```{r,echo=FALSE,message=F}
+nj_rider_nps<-cbind(subset(nps_all,城市.y=="南京",select = "乘客NPS"),data.frame(fac_nj$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=nj_rider_nps))
+```
+
+#郑州
+```{r,echo=FALSE,message=F}
+zz_rider_nps_factor<-subset(nps_all,城市.y=="郑州",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(zz_rider_nps_factor)
+fac_zz<-factanal(zz_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_zz
+par(family='STHeiti')
+heatmap.2(fac_zz$loadings,col = brewer.pal(9,"Greens"),trace = "none",key = FALSE,dend = "none",Colv = FALSE,cexCol = 0.7,cexRow = 0.7, family = "STHeiti")
+```
+
+```{r,echo=FALSE,message=F}
+zz_rider_nps<-cbind(subset(nps_all,城市.y=="郑州",select = "乘客NPS"),data.frame(fac_zz$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=zz_rider_nps))
+```
+
+
+#合肥
+```{r,echo=FALSE,message=F}
+hf_rider_nps_factor<-subset(nps_all,城市.y=="合肥",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(hf_rider_nps_factor)
+fac_hf<-factanal(hf_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_hf
+```
+
+```{r,echo=FALSE,message=F}
+hf_rider_nps<-cbind(subset(nps_all,城市.y=="合肥",select = "乘客NPS"),data.frame(fac_hf$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=hf_rider_nps))
+```
+
+
+#深圳
+```{r,echo=FALSE,message=F}
+sz_rider_nps_factor<-subset(nps_all,城市.y=="深圳",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(sz_rider_nps_factor)
+fac_sz<-factanal(sz_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_sz
+```
+
+```{r,echo=FALSE,message=F}
+sz_rider_nps<-cbind(subset(nps_all,城市.y=="深圳",select = "乘客NPS"),data.frame(fac_sz$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=sz_rider_nps))
+```
+
+#北京
+通过机器算法得到3个因子是较为适宜的因子数量。
+使用正交旋转的因子分析以确保因子间不存在相关性，获得3个因子并生成因子与观察变量间的载荷热力图
+数据结果表明，三个因子解释了观察数据92.1%的方差，效果良好。
+```{r,echo=FALSE,message=F}
+nScree(bj_rider_nps_factor)
+fac_bj<-factanal(bj_rider_nps_factor[,2:11],factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_bj
+par(family='STHeiti')
+heatmap.2(fac_bj$loadings,col = brewer.pal(9,"Greens"),trace = "none",key = FALSE,dend = "none",Colv = FALSE,cexCol = 0.7,cexRow = 0.7, family = "STHeiti")
+```
+
+在北京，因子1和折扣率、单均C端补贴的正向载荷很高，同时实付index、实付每公里有很高的负向载荷，总体说明折扣水平越高（越便宜），这个因子的评分越高，可以将这个因子称为“价格因子”。
+
+因子2在应答率、成单率的正向载荷极高，可将称为“应答因子”。
+
+因子3在ATA、动调率的正向载荷极高。由于价格因素已经在因子1中充分体现，而ATA与动调率高度相关，可认为这个因子主要是由ATA驱动，称为“等待时间因子”。
+
+```{r,echo=FALSE,message=F}
+bj_rider_nps<-cbind(subset(nps_all,城市.y=="北京",select = "乘客NPS"),data.frame(fac_bj$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=bj_rider_nps))
+```
+
+如下为北京各基础运营指标之间的相关性，供参考：
+```{r,echo=FALSE,message=F}
+require(ggplot2)
+require(GGally)
+ggpairs(bj_rider_nps_factor)+theme(text=element_text(family = "STHeiti",size=10))
+```
+
+
+#成都
+```{r,echo=FALSE,message=F}
+cd_rider_nps_factor<-subset(nps_all,城市.y=="成都",select=c(3,4,5,6,7,17,32,33,37,38))
+nScree(cd_rider_nps_factor)
+fac_cd<-factanal(cd_rider_nps_factor,factors = 3,rotation ="varimax",scores = "Bartlett") 
+#用正交旋转法保证因子之间是不相关的
+fac_cd
+par(family='STHeiti')
+heatmap.2(fac_cd$loadings,col = brewer.pal(9,"Greens"),trace = "none",key = FALSE,dend = "none",Colv = FALSE,cexCol = 0.7,cexRow = 0.7, family = "STHeiti")
+```
+
+在成都，因子1的应答率、成单率、应答率index载荷为正向且数值高，同时ATA、ATAindex有较高的负向载荷，可将其视为“应答因子”，这一点和北京的主要差异是，ATA和应答合成了同一个因子，而不是分开的。
+
+因子2在动调率、实付每公里的负向载荷高，可称为“价格因子（或动调因子）"；
+
+因子3在C端补贴、折扣率的正向载荷高，可称为“折扣因子”。
+
+因子2、3的拆分和北京的状况并不一致。目前来看，北京、成都的数据模型并不相同。
+
+```{r,echo=FALSE,message=F}
+cd_rider_nps<-cbind(subset(nps_all,城市.y=="成都",select = "乘客NPS"),data.frame(fac_cd$scores))
+summary(lm(乘客NPS~Factor1+Factor2+Factor3,data=cd_rider_nps))
+```
+
+
